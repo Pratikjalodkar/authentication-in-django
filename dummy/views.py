@@ -3,14 +3,30 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import Interns
+from .forms import InternsForm
 
 
 # @login_required(login_url='login')
 def home(request):
     if request.user.is_authenticated:
-        fm = Interns()
-        return render( request, 'home.html', {'form':fm})
+        # fm = InternsForm()
+        if request.method == 'POST':
+            fm=InternsForm(request.POST)
+            
+            if fm.is_valid():
+                print(fm.cleaned_data)
+                fm.save()
+                messages.success(request,"Task added Successfully!!")  
+                return render(request,'home.html',{'form':fm})
+            else:
+                fm=InternsForm()
+                messages.error(request,"Please out all the task!!")  
+                return render(request,'home.html',{'from':fm})
+
+        else:
+            fm=InternsForm()
+            return render(request,'home.html',{'form':fm})
+        # return render( request, 'home.html', {'form':fm})
     else:
         messages.error(request, "login required!!")
         return redirect('login')
@@ -71,3 +87,8 @@ def signupPage(request):
                 messages.error(request, "password and confirm password are not same")
                 
     return render(request,'signup.html')
+
+
+def viewTask(request):
+    return render(request,'viewtask.html')
+    
