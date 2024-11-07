@@ -1,7 +1,37 @@
+
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}Tasks Page{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/extra-styles.css' %}">
+{% endblock %}
 
 {% block content %}
 <h1>Your Task</h1>
+
+<table>
+    <tr>
+        <th>S No.</th>
+        <th>Project Name</th>
+        <th>Repo Link</th>
+        <th>Branch</th>
+        <th>Action Button</th>
+    </tr>
+
+    {% for task in tasks %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{ task.project_name }}</td>
+        <td>{{ task.repo_link }}</td>
+        <td>{{ task.branch }}</td>
+        <td>
+            <a href="/edit?project_name={{task.project_name}}">Edit</a> |
+            <a href="/delete?project_name={{task.project_name}}">Delete</a>
+        </td>
+        
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}

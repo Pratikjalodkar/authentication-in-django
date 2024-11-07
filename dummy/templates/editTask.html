@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Task Page{% endblock %}
+
+{% block content %}
+    {% comment %} <p>Welcome {{request.user}} to my home page</p> {% endcomment %}
+    {% if user.is_authenticated %}
+        <p>Welcome {{request.user}}</p>
+
+        
+        <div class="form-container">
+            {% if messages %}
+            {% for m in messages %}
+                <div class="alert {{m.tags}}">
+                    {{m}}
+                </div>
+            {% endfor %}
+            {% endif %}
+        <div class="container">   
+        <h2>Edit Task</h2>
+        </div>
+        <form action='' method='POST'>
+            {% csrf_token %}
+            <table>
+                {{form.as_p}}
+            </table>    
+            
+            <button type="submit" value="save">Save</button>
+        </form>
+    </div>
+    {% endif %}
+    
+    {% comment %} <a href="{% url 'logout' %}">Logout</a> {% endcomment %}
+{% endblock %}

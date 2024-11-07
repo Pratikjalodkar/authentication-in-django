@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import InternsForm
+from .models import Interns
 
 
 # @login_required(login_url='login')
@@ -14,7 +15,6 @@ def home(request):
             fm=InternsForm(request.POST)
             
             if fm.is_valid():
-                print(fm.cleaned_data)
                 fm.save()
                 messages.success(request,"Task added Successfully!!")  
                 return render(request,'home.html',{'form':fm})
@@ -26,7 +26,6 @@ def home(request):
         else:
             fm=InternsForm()
             return render(request,'home.html',{'form':fm})
-        # return render( request, 'home.html', {'form':fm})
     else:
         messages.error(request, "login required!!")
         return redirect('login')
@@ -47,7 +46,8 @@ def loginPage(request):
 
             user= authenticate(request,username=uname,password=pass1)
             if user is None:
-                return HttpResponse("Invalid Credential!!") 
+                messages.error(request,"Invalid Credential!!")
+                return redirect('login') 
             else:
                 login(request,user)
                 print("User authenticated and logged in") 
@@ -61,7 +61,6 @@ def logoutPage(request):
 
 
 def signupPage(request):
-    
     if request.user.is_authenticated:
         return redirect('home')
     else:
@@ -81,7 +80,7 @@ def signupPage(request):
                 my_user.set_password(pass1) #to encrypt the password
                 my_user.save()
                 messages.success(request, "Account created successfully")
-                return redirect('login',{})
+                return redirect('login')
             else: 
                 # return HttpResponse('your password and confirm password are not same')
                 messages.error(request, "password and confirm password are not same")
@@ -90,5 +89,16 @@ def signupPage(request):
 
 
 def viewTask(request):
-    return render(request,'viewtask.html')
+    tasks = Interns.objects.all() 
+    return render(request,'viewtask.html',{'tasks':tasks})
     
+
+def delete(request):
+    project_name = request.GET['project_name']
+    Interns.objects.filter(project_name=project_name).delete()
+    return redirect('viewTask')
+
+
+def edit(request):
+    # data=request.GET['project_name']
+    return render(request,'editTask.html')
