@@ -3,12 +3,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .forms import Interns
 
 
 # @login_required(login_url='login')
 def home(request):
     if request.user.is_authenticated:
-        return render( request, 'home.html')
+        fm = Interns()
+        return render( request, 'home.html', {'form':fm})
     else:
         messages.error(request, "login required!!")
         return redirect('login')
@@ -63,7 +65,7 @@ def signupPage(request):
                 my_user.set_password(pass1) #to encrypt the password
                 my_user.save()
                 messages.success(request, "Account created successfully")
-                return redirect('login')
+                return redirect('login',{})
             else: 
                 # return HttpResponse('your password and confirm password are not same')
                 messages.error(request, "password and confirm password are not same")

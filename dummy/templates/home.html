@@ -4,7 +4,75 @@
 
 {% block content %}
     {% comment %} <p>Welcome {{request.user}} to my home page</p> {% endcomment %}
+    {% if user.is_authenticated %}
+        <p>Welcome {{request.user}}</p>
+        
+        <div class="form-container">
+        <h2>Project Task Form</h2>
+        <form action='' method='POST'>
+            {% csrf_token %}
+            <table>
+                {{form.as_p}}
+            </table>
+            <!-- Project Name -->
+            {% comment %} <div class="form-group">
+                <label for="project-name">Project Name:</label>
+                <input type="text" id="project-name" name="project-name" required>
+            </div>
+            
+            <!-- Project Repository Link -->
+            <div class="form-group">
+                <label for="repo-link">Project Repository Link:</label>
+                <input type="url" id="repo-link" name="repo-link" required>
+            </div>
 
+            <!-- Branch -->
+            <div class="form-group">
+                <label for="branch">Branch:</label>
+                <input type="text" id="branch" name="branch" required>
+            </div>
+
+            <!-- Task -->
+            <div class="form-group">
+                <label for="task">Task:</label>
+                <input type="text" id="task" name="task" required>
+            </div>
+
+            <!-- Task Assigned By -->
+            <div class="form-group">
+                <label for="task-assigned-by">Task Assigned By:</label>
+                <input type="text" id="task-assigned-by" name="task-assigned-by" required>
+            </div>
+
+            <!-- Date -->
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+
+            <!-- Task Closure Time -->
+            <div class="form-group">
+                <label for="closure-time">Task Closure Time:</label>
+                <input type="time" id="closure-time" name="closure-time" required>
+            </div>
+
+            <!-- Next Task -->
+            <div class="form-group">
+                <label for="next-task">Next Task:</label>
+                <input type="text" id="next-task" name="next-task">
+            </div>
+
+            <!-- Next Task Assigned By -->
+            <div class="form-group">
+                <label for="next-task-assigned-by">Next Task Assigned By:</label>
+                <input type="text" id="next-task-assigned-by" name="next-task-assigned-by">
+            </div> {% endcomment %}
+
+            <!-- Submit Button -->
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    {% endif %}
     
     {% comment %} <a href="{% url 'logout' %}">Logout</a> {% endcomment %}
 {% endblock %}

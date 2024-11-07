@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': 'djangologin',
         'PASSWORD' : 'root',
         'USER' : 'root',
-        'HOST' : 'localhost'
+        'HOST' : 'localhost',
     }
 }
 
