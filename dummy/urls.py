@@ -10,5 +10,6 @@ urlpatterns = [
     path('logout/',views.logoutPage, name='logout'),
     path('view-task/',views.viewTask, name='viewTask'),
     path('delete/',views.delete, name='delete'),
-    path('edit/',views.edit, name='edit'),
+    path('edit/<str:pn>/',views.edit, name='edit'),
+    # path('record-saved/<str:pn>',views.recordSaved, name='recordSaved'),
 ]

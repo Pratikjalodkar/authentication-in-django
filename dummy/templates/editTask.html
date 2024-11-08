@@ -21,10 +21,7 @@
         </div>
         <form action='' method='POST'>
             {% csrf_token %}
-            <table>
                 {{form.as_p}}
-            </table>    
-            
             <button type="submit" value="save">Save</button>
         </form>
     </div>

@@ -9,6 +9,11 @@
 {% endblock %}
 
 {% block content %}
+
+{% if not tasks %}
+<h1 style="color: red; font-size: 18px;">Empty, Nothing is added here</h1>
+
+{% else %}
 <h1>Your Task</h1>
 
 <table>
@@ -27,11 +32,12 @@
         <td>{{ task.repo_link }}</td>
         <td>{{ task.branch }}</td>
         <td>
-            <a href="/edit?project_name={{task.project_name}}">Edit</a> |
+            <a href="{% url 'edit' task.project_name %}">Edit</a> |
             <a href="/delete?project_name={{task.project_name}}">Delete</a>
         </td>
         
     </tr>
     {% endfor %}
 </table>
+{% endif %}
 {% endblock %}

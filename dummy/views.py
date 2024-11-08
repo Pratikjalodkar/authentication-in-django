@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render, HttpResponse,HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
@@ -30,11 +30,6 @@ def home(request):
         messages.error(request, "login required!!")
         return redirect('login')
 
-# @login_required(login_url='login')
-# def homePage(request):
-#     return render(request,'home.html')
-
-
 def loginPage(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -58,7 +53,6 @@ def loginPage(request):
 def logoutPage(request):
     logout(request)
     return redirect('login')
-
 
 def signupPage(request):
     if request.user.is_authenticated:
@@ -87,18 +81,31 @@ def signupPage(request):
                 
     return render(request,'signup.html')
 
-
 def viewTask(request):
     tasks = Interns.objects.all() 
     return render(request,'viewtask.html',{'tasks':tasks})
     
-
 def delete(request):
-    project_name = request.GET['project_name']
-    Interns.objects.filter(project_name=project_name).delete()
+    project_name = request.GET.get('project_name')
+    if project_name:
+        Interns.objects.filter(project_name=project_name).delete()
     return redirect('viewTask')
+    
+def edit(request, pn):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    ins = get_object_or_404(Interns, pk=pn)
+    # ins=Interns.objects.get(project_name=pn)
+    if request.method == 'POST':
+        fm=InternsForm(request.POST,instance=ins)
+        
+        if fm.is_valid():
+            fm.save()
+            messages.success(request,"Task updated Successfully!!")  
+            return redirect('viewTask')
+    else:
+        # ins = Interns.objects.filter(project_name=pn).values()
+        fm=InternsForm(instance=ins)
+        return render(request,'editTask.html',{'form':fm})
 
 
-def edit(request):
-    # data=request.GET['project_name']
-    return render(request,'editTask.html')
