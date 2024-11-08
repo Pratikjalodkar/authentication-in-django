@@ -1,10 +1,11 @@
-from django.shortcuts import get_object_or_404, redirect, render, HttpResponse,HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import InternsForm
 from .models import Interns
+from django.core.exceptions import ValidationError
 
 
 # @login_required(login_url='login')
@@ -15,17 +16,27 @@ def home(request):
             fm=InternsForm(request.POST)
             
             if fm.is_valid():
+                # print(fm.cleaned_data['project_name'])
+
+                '''
+                # validation- with this type of work we can validate any form field
+                # err=''
+                # p_n=fm.cleaned_data['project_name']
+                # if len(p_n)<4:
+                #     err='less than 4 digit'
+                '''
+
                 fm.save()
                 messages.success(request,"Task added Successfully!!")  
-                return render(request,'home.html',{'form':fm})
+                # return render(request,'home.html',{'form':fm})
+                return redirect('home')
             else:
-                fm=InternsForm()
-                messages.error(request,"Please out all the task!!")  
-                return render(request,'home.html',{'from':fm})
-
+                # fm=InternsForm()
+                messages.error(request,"Please check out all the task!!")
+                # return render(request,'home.html',{'from':fm})
         else:
             fm=InternsForm()
-            return render(request,'home.html',{'form':fm})
+        return render(request,'home.html',{'form':fm})
     else:
         messages.error(request, "login required!!")
         return redirect('login')
