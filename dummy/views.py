@@ -31,8 +31,9 @@ def home(request):
                 # return render(request,'home.html',{'form':fm})
                 return redirect('home')
             else:
+                pass
                 # fm=InternsForm()
-                messages.error(request,"Please check out all the task!!")
+                # messages.error(request,"Please check out all the task!!")
                 # return render(request,'home.html',{'from':fm})
         else:
             fm=InternsForm()

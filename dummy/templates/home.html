@@ -1,7 +1,22 @@
 {% extends "base.html" %}
 
 {% block title %}Home Page{% endblock %}
-
+{% block extra_css %}
+<style>
+    /* Message styling */
+    .alert-error {
+        color: red;
+        font-weight: bold;
+    }
+    .alert-success {
+        color: green;
+        font-weight: bold;
+    }
+    .errorlist {
+        color: red;
+    }
+</style>
+{% endblock %}
 {% block content %}
     {% comment %} <p>Welcome {{request.user}} to my home page</p> {% endcomment %}
     {% if user.is_authenticated %}
@@ -11,7 +26,7 @@
         <div class="form-container">
             {% if messages %}
             {% for m in messages %}
-                <div class="alert {{m.tags}}">
+                <div class="alert alert-{{m.tags}}">
                     {{m}}
                 </div>
             {% endfor %}
@@ -22,22 +37,10 @@
         </div>
         <form action='' method='POST'>
             {% csrf_token %}
-
-             {% if form.errors %}
-                    <div>
-                        {% for field in form %}
-                            {% if field.errors %}
-                                {% for error in field.errors %}
-                                    <p>{{error}}</p>
-                                {% endfor %}
-                            {% endif %}
-                        {% endfor %}    
-                    </div>
-                {% endif %}
             <table>
                 {{form.as_p}}
             </table>
-            
+
             <button type="submit">Submit</button>
         </form>
     </div>

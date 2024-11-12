@@ -39,3 +39,13 @@ h1 {
     margin-bottom: 10px;
     font-family: Arial, sans-serif;
 }
+
+.alert-error {
+    color: red;
+    font-weight: bold;
+}
+
+.alert-success {
+    color: green;
+    font-weight: bold;
+}
