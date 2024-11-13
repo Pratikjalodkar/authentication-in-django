@@ -6,7 +6,7 @@ from django.core import validators
 class InternsForm(forms.ModelForm):
     class Meta:
         model = Interns
-        fields = ['project_name','repo_link','branch']
+        fields = ['project_name','repo_link','branch','task','task_assigned_by']
         
         
         # fields = ['project_name','repo_link','branch',
