@@ -8,7 +8,7 @@ class Interns(models.Model):
     branch = models.CharField(max_length=50)
     task = models.CharField(max_length=50)
     task_assigned_by = models.CharField(max_length=50)
-    # date = models.DateField()
+    date = models.DateField(null=True)
     # task_closure_time = models.TimeField()
     # next_task = models.CharField(max_length=50)
     # next_task_assigned_by = models.CharField(max_length=50)

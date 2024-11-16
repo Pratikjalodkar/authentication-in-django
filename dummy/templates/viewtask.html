@@ -19,6 +19,7 @@
     <th>Branch</th>
     <th>Task</th>
     <th>Task Assigned By</th>
+    <th>Date</th>
     
     <th>Action Button</th>
   </tr>
@@ -31,6 +32,7 @@
     <td>{{ task.branch }}</td>
     <td>{{ task.task }}</td>
     <td>{{ task.task_assigned_by }}</td>
+    <td>{{ task.date }}</td>
     <td>
       <a href="{% url 'edit' task.project_name %}">Edit</a> |
       <a href="/delete?project_name={{task.project_name}}">Delete</a>

@@ -6,7 +6,7 @@ from django.core import validators
 class InternsForm(forms.ModelForm):
     class Meta:
         model = Interns
-        fields = ['project_name','repo_link','branch','task','task_assigned_by']
+        fields = ['project_name','repo_link','branch','task','task_assigned_by','date']
         
         
         # fields = ['project_name','repo_link','branch',
@@ -33,6 +33,13 @@ class InternsForm(forms.ModelForm):
             raise ValidationError('Please Enter branch name')
         
         return branch
+    
+    def clean_task_assigned_by(self):
+        task_assigned_by = self.cleaned_data.get('task_assigned_by')
+
+        if not task_assigned_by.isalpha():
+            raise ValidationError('Only string is allowed')
+        return task_assigned_by
             
 
         
